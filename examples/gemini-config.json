@@ -1,0 +1,14 @@
+{
+  "tools": [
+    {
+      "name": "large-file-mcp",
+      "command": "npx",
+      "args": ["-y", "@willianpinho/large-file-mcp"],
+      "protocol": "mcp",
+      "env": {
+        "CHUNK_SIZE": "500",
+        "CACHE_ENABLED": "true"
+      }
+    }
+  ]
+}

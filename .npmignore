@@ -1,0 +1,8 @@
+src/
+examples/
+*.md
+!README.md
+tsconfig.json
+.eslintrc.json
+.gitignore
+.git/

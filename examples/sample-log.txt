@@ -1,0 +1,25 @@
+2024-01-10 10:00:01 INFO Application started
+2024-01-10 10:00:02 INFO Database connection established
+2024-01-10 10:00:03 DEBUG Loading configuration
+2024-01-10 10:00:04 INFO Server listening on port 8080
+2024-01-10 10:00:05 DEBUG Request received: GET /api/users
+2024-01-10 10:00:06 INFO Processing user request
+2024-01-10 10:00:07 DEBUG Query: SELECT * FROM users WHERE active=true
+2024-01-10 10:00:08 INFO Response sent: 200 OK
+2024-01-10 10:00:09 DEBUG Request received: POST /api/orders
+2024-01-10 10:00:10 ERROR Database connection timeout
+2024-01-10 10:00:11 WARN Retrying database connection
+2024-01-10 10:00:12 INFO Database connection re-established
+2024-01-10 10:00:13 INFO Order created successfully
+2024-01-10 10:00:14 DEBUG Request received: GET /api/products
+2024-01-10 10:00:15 INFO Processing product request
+2024-01-10 10:00:16 DEBUG Query: SELECT * FROM products WHERE available=true
+2024-01-10 10:00:17 INFO Response sent: 200 OK
+2024-01-10 10:00:18 DEBUG Request received: PUT /api/users/123
+2024-01-10 10:00:19 INFO Updating user 123
+2024-01-10 10:00:20 ERROR Validation failed: email format invalid
+2024-01-10 10:00:21 INFO Response sent: 400 Bad Request
+2024-01-10 10:00:22 DEBUG Request received: DELETE /api/orders/456
+2024-01-10 10:00:23 INFO Deleting order 456
+2024-01-10 10:00:24 INFO Order deleted successfully
+2024-01-10 10:00:25 INFO Response sent: 200 OK

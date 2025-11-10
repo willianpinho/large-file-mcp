@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "large-file": {
+      "command": "node",
+      "args": ["/absolute/path/to/large-file-mcp/dist/index.js"],
+      "env": {
+        "CHUNK_SIZE": "500",
+        "OVERLAP_LINES": "10",
+        "CACHE_ENABLED": "true"
+      }
+    }
+  }
+}

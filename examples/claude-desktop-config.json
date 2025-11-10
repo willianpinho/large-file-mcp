@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "large-file": {
+      "command": "npx",
+      "args": ["-y", "@willianpinho/large-file-mcp"],
+      "env": {
+        "CHUNK_SIZE": "500",
+        "OVERLAP_LINES": "10",
+        "CACHE_SIZE": "104857600",
+        "CACHE_TTL": "300000",
+        "CACHE_ENABLED": "true"
+      }
+    }
+  }
+}
