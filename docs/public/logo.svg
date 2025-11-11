@@ -1,0 +1,19 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <circle cx="32" cy="32" r="30" fill="#646cff" opacity="0.1"/>
+
+  <!-- Document icon -->
+  <path d="M16 12C16 10.8954 16.8954 10 18 10H36L48 22V52C48 53.1046 47.1046 54 46 54H18C16.8954 54 16 53.1046 16 52V12Z" fill="#646cff" opacity="0.8"/>
+
+  <!-- Corner fold -->
+  <path d="M36 10V20C36 21.1046 36.8954 22 38 22H48L36 10Z" fill="#646cff"/>
+
+  <!-- LF text -->
+  <text x="32" y="38" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="white" text-anchor="middle">LF</text>
+
+  <!-- Lines on document (representing large file) -->
+  <line x1="22" y1="28" x2="42" y2="28" stroke="white" stroke-width="1.5" opacity="0.6"/>
+  <line x1="22" y1="32" x2="38" y2="32" stroke="white" stroke-width="1.5" opacity="0.6"/>
+  <line x1="22" y1="44" x2="42" y2="44" stroke="white" stroke-width="1.5" opacity="0.6"/>
+  <line x1="22" y1="48" x2="36" y2="48" stroke="white" stroke-width="1.5" opacity="0.6"/>
+</svg>
