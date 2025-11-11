@@ -39,3 +39,26 @@ coverage/
 # Cache
 .cache/
 .eslintcache
+
+# Temporary documentation (DO NOT COMMIT)
+*_STATUS.txt
+*_REPORT.md
+*_SUMMARY.md
+*_GUIDE.md
+CLAUDE_*.md
+SETUP_COMPLETE.md
+START_HERE.md
+PUBLICATION_GUIDE.md
+README_PUBLICACAO.md
+RELATORIO_*.md
+RESPOSTA_*.md
+CORRECTION_*.md
+COMANDOS_EXECUCAO.sh
+publish.sh
+
+# Keep only essential documentation:
+# - README.md
+# - CHANGELOG.md
+# - CONTRIBUTING.md
+# - LICENSE
+# - PR_TEMPLATE.md
