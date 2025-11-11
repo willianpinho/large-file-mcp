@@ -1,0 +1,10 @@
+Line 1: First line of text
+Line 2: Second line of text
+Line 3: Third line with ERROR message
+Line 4: Fourth line
+Line 5: Fifth line with WARNING
+Line 6: Sixth line
+Line 7: Seventh line with ERROR
+Line 8: Eighth line
+Line 9: Ninth line
+Line 10: Tenth line
