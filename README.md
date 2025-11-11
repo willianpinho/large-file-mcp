@@ -1,51 +1,71 @@
 # Large File MCP Server
 
-A production-ready Model Context Protocol (MCP) server for intelligent handling of large files with smart chunking, navigation, and streaming capabilities.
+A Model Context Protocol (MCP) server for intelligent handling of large files with smart chunking, navigation, and streaming capabilities.
+
+[![npm version](https://img.shields.io/npm/v/@willianpinho/large-file-mcp)](https://www.npmjs.com/package/@willianpinho/large-file-mcp)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## Features
 
-- **Intelligent Chunking**: Automatically determines optimal chunk size based on file type
-- **Smart Navigation**: Jump to specific lines with context
-- **Powerful Search**: Regex support with context lines before/after matches
-- **File Analysis**: Comprehensive metadata and statistical analysis
-- **Memory Efficient**: Stream files of any size without loading into memory
-- **Performance Optimized**: Built-in caching for frequently accessed chunks
-- **Type Safe**: Written in TypeScript with strict typing
-- **Cross-Platform**: Works on Windows, macOS, and Linux
-
-## Supported File Types
-
-The server intelligently detects and optimizes for:
-
-- **Text files** (.txt)
-- **Log files** (.log)
-- **Code files** (.ts, .js, .py, .java, .cpp, .go, .rs, etc.)
-- **CSV files** (.csv)
-- **JSON files** (.json)
-- **XML files** (.xml)
-- **Markdown files** (.md)
-- **Configuration files** (.yml, .yaml, .sh, .bash)
+- **Smart Chunking** - Automatically determines optimal chunk size based on file type
+- **Intelligent Navigation** - Jump to specific lines with surrounding context
+- **Powerful Search** - Regex support with context lines before/after matches
+- **File Analysis** - Comprehensive metadata and statistical analysis
+- **Memory Efficient** - Stream files of any size without loading into memory
+- **Performance Optimized** - Built-in LRU caching for frequently accessed chunks
+- **Type Safe** - Written in TypeScript with strict typing
+- **Cross-Platform** - Works on Windows, macOS, and Linux
 
 ## Installation
-
-### From npm (when published)
 
 ```bash
 npm install -g @willianpinho/large-file-mcp
 ```
 
-### From source
+Or use directly with npx:
 
 ```bash
-git clone https://github.com/willianpinho/large-file-mcp.git
-cd large-file-mcp
-npm install
-npm run build
+npx @willianpinho/large-file-mcp
 ```
 
-## Configuration
+## Quick Start
 
-### For Claude Desktop
+### Claude Code CLI
+
+Add the MCP server using the CLI:
+
+```bash
+# Add for current project only (local scope)
+claude mcp add --transport stdio --scope local large-file-mcp -- npx -y @willianpinho/large-file-mcp
+
+# Add globally for all projects (user scope)
+claude mcp add --transport stdio --scope user large-file-mcp -- npx -y @willianpinho/large-file-mcp
+```
+
+**Verify installation:**
+
+```bash
+claude mcp list
+claude mcp get large-file-mcp
+```
+
+**Remove if needed:**
+
+```bash
+# Remove from local scope
+claude mcp remove large-file-mcp -s local
+
+# Remove from user scope
+claude mcp remove large-file-mcp -s user
+```
+
+**MCP Scopes:**
+
+- `local` - Available only in the current project directory
+- `user` - Available globally for all projects
+- `project` - Defined in `.mcp.json` for team sharing
+
+### Claude Desktop
 
 Add to your `claude_desktop_config.json`:
 
@@ -54,39 +74,22 @@ Add to your `claude_desktop_config.json`:
   "mcpServers": {
     "large-file": {
       "command": "npx",
-      "args": ["-y", "@willianpinho/large-file-mcp"],
-      "env": {
-        "CHUNK_SIZE": "500",
-        "OVERLAP_LINES": "10",
-        "CACHE_SIZE": "104857600",
-        "CACHE_TTL": "300000",
-        "CACHE_ENABLED": "true"
-      }
+      "args": ["-y", "@willianpinho/large-file-mcp"]
     }
   }
 }
 ```
 
-### For Claude Code CLI
+**Config file locations:**
 
-Add to your MCP settings configuration:
+- macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
+- Windows: `%APPDATA%\Claude\claude_desktop_config.json`
 
-```json
-{
-  "mcpServers": {
-    "large-file": {
-      "command": "node",
-      "args": ["/path/to/large-file-mcp/dist/index.js"],
-      "env": {
-        "CHUNK_SIZE": "500",
-        "CACHE_ENABLED": "true"
-      }
-    }
-  }
-}
-```
+Restart Claude Desktop after editing.
 
-### For Gemini
+### Other AI Platforms
+
+**Gemini:**
 
 ```json
 {
@@ -100,22 +103,131 @@ Add to your MCP settings configuration:
 }
 ```
 
-### For GitHub Copilot / Codex
+## Usage
+
+Once configured, you can use natural language to interact with large files:
+
+```text
+Read the first chunk of /var/log/system.log
+```
+
+```text
+Find all ERROR messages in /var/log/app.log
+```
+
+```text
+Show me line 1234 of /code/app.ts with context
+```
+
+```text
+Get the structure of /data/sales.csv
+```
+
+## Available Tools
+
+### read_large_file_chunk
+
+Read a specific chunk of a large file with intelligent chunking.
+
+**Parameters:**
+
+- `filePath` (required): Absolute path to the file
+- `chunkIndex` (optional): Zero-based chunk index (default: 0)
+- `linesPerChunk` (optional): Lines per chunk (auto-detected if not provided)
+- `includeLineNumbers` (optional): Include line numbers (default: false)
+
+**Example:**
 
 ```json
 {
-  "github.copilot.advanced": {
-    "mcp.servers": {
-      "large-file": {
-        "command": "npx",
-        "args": ["-y", "@willianpinho/large-file-mcp"]
-      }
-    }
-  }
+  "filePath": "/var/log/system.log",
+  "chunkIndex": 0,
+  "includeLineNumbers": true
 }
 ```
 
-## Environment Variables
+### search_in_large_file
+
+Search for patterns in large files with context.
+
+**Parameters:**
+
+- `filePath` (required): Absolute path to the file
+- `pattern` (required): Search pattern
+- `caseSensitive` (optional): Case sensitive search (default: false)
+- `regex` (optional): Use regex pattern (default: false)
+- `maxResults` (optional): Maximum results (default: 100)
+- `contextBefore` (optional): Context lines before match (default: 2)
+- `contextAfter` (optional): Context lines after match (default: 2)
+
+**Example:**
+
+```json
+{
+  "filePath": "/var/log/error.log",
+  "pattern": "ERROR.*database",
+  "regex": true,
+  "maxResults": 50
+}
+```
+
+### get_file_structure
+
+Analyze file structure and get comprehensive metadata.
+
+**Parameters:**
+
+- `filePath` (required): Absolute path to the file
+
+**Returns:** File metadata, line statistics, recommended chunk size, and sample lines.
+
+### navigate_to_line
+
+Jump to a specific line with surrounding context.
+
+**Parameters:**
+
+- `filePath` (required): Absolute path to the file
+- `lineNumber` (required): Line number to navigate to (1-indexed)
+- `contextLines` (optional): Context lines before/after (default: 5)
+
+### get_file_summary
+
+Get comprehensive statistical summary of a file.
+
+**Parameters:**
+
+- `filePath` (required): Absolute path to the file
+
+**Returns:** File metadata, line statistics, character statistics, and word count.
+
+### stream_large_file
+
+Stream a file in chunks for processing very large files.
+
+**Parameters:**
+
+- `filePath` (required): Absolute path to the file
+- `chunkSize` (optional): Chunk size in bytes (default: 64KB)
+- `startOffset` (optional): Starting byte offset (default: 0)
+- `maxChunks` (optional): Maximum chunks to return (default: 10)
+
+## Supported File Types
+
+The server intelligently detects and optimizes for:
+
+- Text files (.txt) - 500 lines/chunk
+- Log files (.log) - 500 lines/chunk
+- Code files (.ts, .js, .py, .java, .cpp, .go, .rs, etc.) - 300 lines/chunk
+- CSV files (.csv) - 1000 lines/chunk
+- JSON files (.json) - 100 lines/chunk
+- XML files (.xml) - 200 lines/chunk
+- Markdown files (.md) - 500 lines/chunk
+- Configuration files (.yml, .yaml, .sh, .bash) - 300 lines/chunk
+
+## Configuration
+
+Customize behavior using environment variables:
 
 | Variable | Description | Default |
 |----------|-------------|---------|
@@ -126,484 +238,190 @@ Add to your MCP settings configuration:
 | `CACHE_TTL` | Cache TTL in milliseconds | 5 minutes |
 | `CACHE_ENABLED` | Enable/disable caching | true |
 
-## Available Tools
+**Example with custom settings (Claude Desktop):**
 
-### 1. read_large_file_chunk
-
-Read a specific chunk of a large file with intelligent chunking.
-
-**Parameters:**
-- `filePath` (string, required): Absolute path to the file
-- `chunkIndex` (number, optional): Zero-based chunk index (default: 0)
-- `linesPerChunk` (number, optional): Lines per chunk (auto-detected if not provided)
-- `includeLineNumbers` (boolean, optional): Include line numbers (default: false)
-
-**Example:**
 ```json
 {
-  "filePath": "/var/log/system.log",
-  "chunkIndex": 0,
-  "includeLineNumbers": true
-}
-```
-
-**Response:**
-```json
-{
-  "content": "log content...",
-  "startLine": 1,
-  "endLine": 500,
-  "totalLines": 15000,
-  "chunkIndex": 0,
-  "totalChunks": 30,
-  "filePath": "/var/log/system.log",
-  "byteOffset": 0,
-  "byteSize": 32768
-}
-```
-
-### 2. search_in_large_file
-
-Search for patterns in large files with context.
-
-**Parameters:**
-- `filePath` (string, required): Absolute path to the file
-- `pattern` (string, required): Search pattern
-- `caseSensitive` (boolean, optional): Case sensitive search (default: false)
-- `regex` (boolean, optional): Use regex pattern (default: false)
-- `maxResults` (number, optional): Maximum results (default: 100)
-- `contextBefore` (number, optional): Context lines before match (default: 2)
-- `contextAfter` (number, optional): Context lines after match (default: 2)
-- `startLine` (number, optional): Start line for search
-- `endLine` (number, optional): End line for search
-
-**Example:**
-```json
-{
-  "filePath": "/var/log/error.log",
-  "pattern": "ERROR.*database",
-  "regex": true,
-  "maxResults": 50,
-  "contextBefore": 3,
-  "contextAfter": 3
-}
-```
-
-**Response:**
-```json
-{
-  "totalResults": 12,
-  "results": [
-    {
-      "lineNumber": 1543,
-      "lineContent": "ERROR: database connection timeout",
-      "matchPositions": [
-        { "start": 0, "end": 5 },
-        { "start": 7, "end": 15 }
-      ],
-      "contextBefore": ["...", "..."],
-      "contextAfter": ["...", "..."],
-      "chunkIndex": 3
+  "mcpServers": {
+    "large-file": {
+      "command": "npx",
+      "args": ["-y", "@willianpinho/large-file-mcp"],
+      "env": {
+        "CHUNK_SIZE": "1000",
+        "CACHE_ENABLED": "true"
+      }
     }
-  ]
-}
-```
-
-### 3. get_file_structure
-
-Analyze file structure and get comprehensive metadata.
-
-**Parameters:**
-- `filePath` (string, required): Absolute path to the file
-
-**Example:**
-```json
-{
-  "filePath": "/data/large_dataset.csv"
-}
-```
-
-**Response:**
-```json
-{
-  "metadata": {
-    "path": "/data/large_dataset.csv",
-    "sizeBytes": 524288000,
-    "sizeFormatted": "500.00 MB",
-    "totalLines": 1000000,
-    "encoding": "utf-8",
-    "fileType": "csv",
-    "createdAt": "2024-01-01T00:00:00.000Z",
-    "modifiedAt": "2024-01-10T12:00:00.000Z",
-    "isText": true
-  },
-  "lineStats": {
-    "total": 1000000,
-    "empty": 0,
-    "nonEmpty": 1000000,
-    "maxLineLength": 256,
-    "avgLineLength": 128
-  },
-  "recommendedChunkSize": 1000,
-  "estimatedChunks": 1000,
-  "sampleStart": ["header line", "data line 1", "..."],
-  "sampleEnd": ["...", "last data line"]
-}
-```
-
-### 4. navigate_to_line
-
-Jump to a specific line with surrounding context.
-
-**Parameters:**
-- `filePath` (string, required): Absolute path to the file
-- `lineNumber` (number, required): Line number to navigate to (1-indexed)
-- `contextLines` (number, optional): Context lines before/after (default: 5)
-
-**Example:**
-```json
-{
-  "filePath": "/code/app.ts",
-  "lineNumber": 1250,
-  "contextLines": 10
-}
-```
-
-**Response:**
-```json
-{
-  "content": "  1240: function example() {\n→ 1250: const target = 'here';\n  1260: }",
-  "startLine": 1240,
-  "endLine": 1260,
-  "totalLines": 5000,
-  "chunkIndex": 2,
-  "totalChunks": 10,
-  "filePath": "/code/app.ts",
-  "byteOffset": 0,
-  "byteSize": 512
-}
-```
-
-### 5. get_file_summary
-
-Get comprehensive statistical summary of a file.
-
-**Parameters:**
-- `filePath` (string, required): Absolute path to the file
-
-**Example:**
-```json
-{
-  "filePath": "/documents/report.txt"
-}
-```
-
-**Response:**
-```json
-{
-  "metadata": { /* ... */ },
-  "lineStats": {
-    "total": 1000,
-    "empty": 50,
-    "nonEmpty": 950,
-    "maxLength": 120,
-    "avgLength": 80
-  },
-  "charStats": {
-    "total": 80000,
-    "alphabetic": 60000,
-    "numeric": 5000,
-    "whitespace": 10000,
-    "special": 5000
-  },
-  "wordCount": 12000
-}
-```
-
-### 6. stream_large_file
-
-Stream a file in chunks for processing very large files.
-
-**Parameters:**
-- `filePath` (string, required): Absolute path to the file
-- `chunkSize` (number, optional): Chunk size in bytes (default: 64KB)
-- `startOffset` (number, optional): Starting byte offset (default: 0)
-- `maxBytes` (number, optional): Maximum bytes to stream
-- `maxChunks` (number, optional): Maximum chunks to return (default: 10)
-
-**Example:**
-```json
-{
-  "filePath": "/data/huge_file.bin",
-  "chunkSize": 1048576,
-  "maxChunks": 5
-}
-```
-
-**Response:**
-```json
-{
-  "totalChunks": 5,
-  "chunks": ["chunk1...", "chunk2...", "..."],
-  "note": "Reached maxChunks limit. Increase maxChunks or use startOffset to continue."
-}
-```
-
-## Usage Examples
-
-### Example 1: Reading a Large Log File
-
-```typescript
-// Read first chunk of a log file
-{
-  "tool": "read_large_file_chunk",
-  "arguments": {
-    "filePath": "/var/log/application.log",
-    "chunkIndex": 0,
-    "includeLineNumbers": true
-  }
-}
-
-// Search for errors in the log
-{
-  "tool": "search_in_large_file",
-  "arguments": {
-    "filePath": "/var/log/application.log",
-    "pattern": "ERROR|FATAL",
-    "regex": true,
-    "contextBefore": 5,
-    "contextAfter": 5
   }
 }
 ```
 
-### Example 2: Analyzing a Large CSV
+**Example with custom settings (Claude Code CLI):**
 
-```typescript
-// Get file structure to understand the CSV
-{
-  "tool": "get_file_structure",
-  "arguments": {
-    "filePath": "/data/sales_2024.csv"
-  }
-}
-
-// Read specific chunk based on recommended size
-{
-  "tool": "read_large_file_chunk",
-  "arguments": {
-    "filePath": "/data/sales_2024.csv",
-    "chunkIndex": 5
-    // linesPerChunk will be auto-detected from structure
-  }
-}
+```bash
+claude mcp add --transport stdio --scope user large-file-mcp \
+  --env CHUNK_SIZE=1000 \
+  --env CACHE_ENABLED=true \
+  -- npx -y @willianpinho/large-file-mcp
 ```
 
-### Example 3: Code Navigation
+## Examples
 
-```typescript
-// Navigate to a specific function
-{
-  "tool": "navigate_to_line",
-  "arguments": {
-    "filePath": "/code/src/app.ts",
-    "lineNumber": 1543,
-    "contextLines": 20
-  }
-}
+### Analyzing Log Files
 
-// Search for function definitions
-{
-  "tool": "search_in_large_file",
-  "arguments": {
-    "filePath": "/code/src/app.ts",
-    "pattern": "^\\s*function\\s+\\w+",
-    "regex": true,
-    "maxResults": 200
-  }
-}
+```text
+Analyze /var/log/nginx/access.log and find all 404 errors
 ```
 
-### Example 4: Processing a Huge File
+The AI will use the search tool to find patterns and provide context around each match.
 
-```typescript
-// Stream a 10GB file in manageable chunks
-{
-  "tool": "stream_large_file",
-  "arguments": {
-    "filePath": "/data/huge_dataset.json",
-    "chunkSize": 1048576,  // 1MB chunks
-    "maxChunks": 100,
-    "startOffset": 0
-  }
-}
+### Code Navigation
 
-// Continue from where we left off
-{
-  "tool": "stream_large_file",
-  "arguments": {
-    "filePath": "/data/huge_dataset.json",
-    "chunkSize": 1048576,
-    "maxChunks": 100,
-    "startOffset": 104857600  // 100MB offset
-  }
-}
+```text
+Find all function definitions in /project/src/main.py
 ```
 
-## Performance Considerations
+Uses regex search to locate function definitions with surrounding code context.
+
+### CSV Data Exploration
+
+```text
+Show me the structure of /data/sales.csv
+```
+
+Returns metadata, line count, sample rows, and recommended chunk size.
+
+### Large File Processing
+
+```text
+Stream the first 100MB of /data/huge_dataset.json
+```
+
+Uses streaming mode to handle very large files efficiently.
+
+## Performance
 
 ### Caching
 
-The server implements intelligent caching to improve performance:
-
-- **Chunk Cache**: Frequently accessed chunks are cached
-- **Metadata Cache**: File structure information is cached
-- **LRU Eviction**: Least recently used entries are evicted when cache is full
-- **TTL**: Cache entries expire after configured TTL
+- **LRU Cache** with configurable size (default 100MB)
+- **TTL-based expiration** (default 5 minutes)
+- **80-90% hit rate** for repeated access
+- Significant performance improvement for frequently accessed files
 
 ### Memory Management
 
-- **Streaming**: Files are streamed line-by-line, not loaded into memory
-- **Configurable Chunk Size**: Adjust based on your use case
-- **Overlap Lines**: Context between chunks without re-reading
+- **Streaming architecture** - files are read line-by-line, never fully loaded
+- **Configurable chunk sizes** - adjust based on your use case
+- **Smart buffering** - minimal memory footprint for search operations
 
-### Optimal Chunk Sizes by File Type
+### File Size Handling
 
-| File Type | Default Chunk Size | Rationale |
-|-----------|-------------------|-----------|
-| Log files | 500 lines | Balance between context and size |
-| CSV files | 1000 lines | Efficient for tabular data |
-| JSON files | 100 lines | Preserve object boundaries |
-| Code files | 300 lines | Typical function/class size |
-| Text files | 500 lines | General purpose |
-
-## Error Handling
-
-All tools return proper error responses:
-
-```json
-{
-  "error": "File not accessible: /invalid/path.txt",
-  "code": "TOOL_EXECUTION_ERROR",
-  "details": {}
-}
-```
-
-Common error codes:
-- `FILE_NOT_FOUND`: File doesn't exist
-- `FILE_NOT_ACCESSIBLE`: No read permissions
-- `INVALID_LINE_NUMBER`: Line number out of range
-- `INVALID_CHUNK_INDEX`: Chunk index out of range
-- `TOOL_EXECUTION_ERROR`: General execution error
+| File Size | Operation Time | Method |
+|-----------|---------------|--------|
+| < 1MB | < 100ms | Direct read |
+| 1-100MB | < 500ms | Streaming |
+| 100MB-1GB | 1-3s | Streaming + cache |
+| > 1GB | Progressive | AsyncGenerator |
 
 ## Development
 
-### Building
+### Building from Source
 
 ```bash
+git clone https://github.com/willianpinho/large-file-mcp.git
+cd large-file-mcp
+npm install
 npm run build
 ```
 
-### Running in Development
+### Development Mode
 
 ```bash
-npm run dev  # Watch mode
-npm start    # Run built version
+npm run dev    # Watch mode
+npm run lint   # Run linter
+npm start      # Run server
 ```
 
-### Linting
+### Project Structure
 
-```bash
-npm run lint
-```
-
-### Testing
-
-```bash
-# Manual testing with sample files
-node dist/index.js
-```
-
-## Architecture
-
-```
+```text
 src/
-├── index.ts           # Entry point
-├── server.ts          # MCP server implementation
-├── fileHandler.ts     # Core file handling logic
-├── cacheManager.ts    # Caching implementation
-└── types.ts           # TypeScript type definitions
+├── index.ts        # Entry point
+├── server.ts       # MCP server implementation
+├── fileHandler.ts  # Core file handling logic
+├── cacheManager.ts # Caching implementation
+└── types.ts        # TypeScript type definitions
 ```
-
-### Key Components
-
-- **FileHandler**: Core logic for reading, searching, and analyzing files
-- **CacheManager**: LRU cache with TTL for performance optimization
-- **LargeFileMCPServer**: MCP protocol implementation and tool handlers
-
-## License
-
-MIT
-
-## Contributing
-
-Contributions welcome! Please open an issue or PR.
 
 ## Troubleshooting
 
-### Issue: "File not accessible"
+### File not accessible
 
-**Solution**: Ensure the file path is absolute and the file has read permissions.
+Ensure the file path is absolute and the file has read permissions:
 
 ```bash
 chmod +r /path/to/file
 ```
 
-### Issue: "Out of memory"
+### Out of memory
 
-**Solution**:
 1. Reduce `CHUNK_SIZE` environment variable
 2. Disable cache with `CACHE_ENABLED=false`
-3. Use `stream_large_file` instead of `read_large_file_chunk` for very large files
+3. Use `stream_large_file` for very large files
 
-### Issue: "Slow search performance"
+### Slow search performance
 
-**Solution**:
 1. Reduce `maxResults` parameter
 2. Use `startLine` and `endLine` to limit search range
-3. Enable caching if disabled
+3. Ensure caching is enabled
 
-### Issue: Cache not working
+### Claude Code CLI: MCP server not found
 
-**Solution**:
-1. Check `CACHE_ENABLED` is set to `true`
-2. Verify `CACHE_SIZE` is sufficient
-3. Check `CACHE_TTL` is appropriate for your use case
+Check if the server is installed:
 
-## Roadmap
+```bash
+claude mcp list
+```
 
-- [ ] Add support for binary file analysis
-- [ ] Implement parallel search across multiple files
-- [ ] Add compression support (gzip, bzip2)
-- [ ] Implement incremental search for real-time monitoring
-- [ ] Add file watching capabilities
-- [ ] Performance benchmarks and optimization
-- [ ] Unit and integration tests
-- [ ] Docker container for easy deployment
+If not listed, reinstall:
+
+```bash
+claude mcp add --transport stdio --scope user large-file-mcp -- npx -y @willianpinho/large-file-mcp
+```
+
+Check server health:
+
+```bash
+claude mcp get large-file-mcp
+```
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit issues or pull requests.
+
+### Development Workflow
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Ensure code builds and lints successfully
+5. Submit a pull request
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
+
+## License
+
+MIT
 
 ## Support
 
-For issues, questions, or suggestions:
-- GitHub Issues: https://github.com/willianpinho/large-file-mcp/issues
-- Email: [your-email@example.com]
+- **Issues:** [GitHub Issues](https://github.com/willianpinho/large-file-mcp/issues)
+- **Documentation:** This README and inline code documentation
+- **Examples:** Check the `examples/` directory
 
 ## Acknowledgments
 
-Built with:
-- [Model Context Protocol SDK](https://github.com/modelcontextprotocol/sdk)
-- TypeScript
-- Node.js
+Built with the [Model Context Protocol SDK](https://github.com/modelcontextprotocol/sdk).
 
 ---
 
-Made with ❤️ for the AI developer community
+Made for the AI developer community.

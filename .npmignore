@@ -1,8 +1,29 @@
+# Source files (compiled output in dist/ is included)
 src/
-examples/
-*.md
-!README.md
 tsconfig.json
 .eslintrc.json
-.gitignore
+
+# Development files
+examples/
+docs/
+
+# Git files
 .git/
+.gitignore
+
+# Documentation files (keep README, CHANGELOG, CONTRIBUTING, LICENSE)
+*.md
+!README.md
+!CHANGELOG.md
+!CONTRIBUTING.md
+
+# Build artifacts
+*.log
+*.tmp
+.DS_Store
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
