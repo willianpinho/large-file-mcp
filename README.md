@@ -3,7 +3,18 @@
 A Model Context Protocol (MCP) server for intelligent handling of large files with smart chunking, navigation, and streaming capabilities.
 
 [![npm version](https://img.shields.io/npm/v/@willianpinho/large-file-mcp)](https://www.npmjs.com/package/@willianpinho/large-file-mcp)
+[![npm downloads](https://img.shields.io/npm/dm/@willianpinho/large-file-mcp)](https://www.npmjs.com/package/@willianpinho/large-file-mcp)
+[![CI](https://github.com/willianpinho/large-file-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/willianpinho/large-file-mcp/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/willianpinho/large-file-mcp/branch/master/graph/badge.svg)](https://codecov.io/gh/willianpinho/large-file-mcp)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue.svg)](https://www.typescriptlang.org/)
+[![Node.js](https://img.shields.io/badge/Node.js->=18.0.0-green.svg)](https://nodejs.org/)
+[![MCP](https://img.shields.io/badge/MCP-Server-purple.svg)](https://modelcontextprotocol.io/)
+[![Documentation](https://img.shields.io/badge/docs-vitepress-brightgreen.svg)](https://willianpinho.github.io/large-file-mcp/)
+[![GitHub stars](https://img.shields.io/github/stars/willianpinho/large-file-mcp)](https://github.com/willianpinho/large-file-mcp/stargazers)
+[![GitHub issues](https://img.shields.io/github/issues/willianpinho/large-file-mcp)](https://github.com/willianpinho/large-file-mcp/issues)
+
+> 📚 **[Full Documentation](https://willianpinho.github.io/large-file-mcp/)** | [API Reference](https://willianpinho.github.io/large-file-mcp/api/reference) | [Examples](https://willianpinho.github.io/large-file-mcp/examples/use-cases)
 
 ## Features
 
