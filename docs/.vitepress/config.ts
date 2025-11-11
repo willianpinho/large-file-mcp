@@ -2,6 +2,7 @@ import { defineConfig } from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
+  base: '/large-file-mcp/', // CRITICAL: GitHub Pages subpath configuration
   title: "Large File MCP Server",
   description: "Production-ready MCP server for intelligent handling of large files with smart chunking, navigation, and streaming capabilities",
 
