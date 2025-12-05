@@ -2,6 +2,10 @@
 
 A Model Context Protocol (MCP) server for intelligent handling of large files with smart chunking, navigation, and streaming capabilities.
 
+<a href="https://glama.ai/mcp/servers/@willianpinho/large-file-mcp">
+  <img width="380" height="200" src="https://glama.ai/mcp/servers/@willianpinho/large-file-mcp/badge" alt="Large File MCP Server" />
+</a>
+
 [![npm version](https://img.shields.io/npm/v/@willianpinho/large-file-mcp)](https://www.npmjs.com/package/@willianpinho/large-file-mcp)
 [![npm downloads](https://img.shields.io/npm/dm/@willianpinho/large-file-mcp)](https://www.npmjs.com/package/@willianpinho/large-file-mcp)
 [![CI](https://github.com/willianpinho/large-file-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/willianpinho/large-file-mcp/actions/workflows/ci.yml)
@@ -340,16 +344,16 @@ Uses streaming mode to handle very large files efficiently.
 ```bash
 git clone https://github.com/willianpinho/large-file-mcp.git
 cd large-file-mcp
-npm install
-npm run build
+pnpm install
+pnpm build
 ```
 
 ### Development Mode
 
 ```bash
-npm run dev    # Watch mode
-npm run lint   # Run linter
-npm start      # Run server
+pnpm dev    # Watch mode
+pnpm lint   # Run linter
+pnpm start  # Run server
 ```
 
 ### Project Structure
@@ -404,6 +408,38 @@ Check server health:
 ```bash
 claude mcp get large-file-mcp
 ```
+
+## Usage Metrics
+
+This MCP server is actively maintained and monitored for usage patterns to improve functionality. Usage metrics help us:
+
+- Understand which tools are most valuable
+- Identify performance bottlenecks
+- Prioritize feature development
+- Ensure reliability and stability
+
+### Monitoring in Production
+
+The server provides comprehensive logging and telemetry through environment variables:
+
+- **CACHE_ENABLED**: Enable/disable caching (default: `true`)
+- **CACHE_SIZE**: Cache size in bytes (default: `104857600` - 100MB)
+- **CACHE_TTL**: Cache TTL in milliseconds (default: `300000` - 5 minutes)
+- **CHUNK_SIZE**: Default lines per chunk (default: `500`)
+- **MAX_FILE_SIZE**: Maximum file size in bytes (default: `10737418240` - 10GB)
+- **OVERLAP_LINES**: Overlap between chunks (default: `10`)
+
+### Usage Examples
+
+Recent usage patterns show the server is particularly effective for:
+
+- **Log Analysis**: Processing multi-GB log files with search and navigation
+- **Data Processing**: Reading large CSV/JSON files in manageable chunks
+- **Code Review**: Navigating large codebases efficiently
+- **System Monitoring**: Analyzing system logs and debug outputs
+- **Document Analysis**: Processing large text documents
+
+For detailed analytics and usage trends, visit the [Glama.ai dashboard](https://glama.ai/mcp/servers/@willianpinho/large-file-mcp).
 
 ## Contributing
 
