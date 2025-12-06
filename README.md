@@ -2,10 +2,6 @@
 
 A Model Context Protocol (MCP) server for intelligent handling of large files with smart chunking, navigation, and streaming capabilities.
 
-<a href="https://glama.ai/mcp/servers/@willianpinho/large-file-mcp">
-  <img width="380" height="200" src="https://glama.ai/mcp/servers/@willianpinho/large-file-mcp/badge" alt="Large File MCP Server" />
-</a>
-
 [![npm version](https://img.shields.io/npm/v/@willianpinho/large-file-mcp)](https://www.npmjs.com/package/@willianpinho/large-file-mcp)
 [![npm downloads](https://img.shields.io/npm/dm/@willianpinho/large-file-mcp)](https://www.npmjs.com/package/@willianpinho/large-file-mcp)
 [![CI](https://github.com/willianpinho/large-file-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/willianpinho/large-file-mcp/actions/workflows/ci.yml)
@@ -17,6 +13,10 @@ A Model Context Protocol (MCP) server for intelligent handling of large files wi
 [![Documentation](https://img.shields.io/badge/docs-vitepress-brightgreen.svg)](https://willianpinho.github.io/large-file-mcp/)
 [![GitHub stars](https://img.shields.io/github/stars/willianpinho/large-file-mcp)](https://github.com/willianpinho/large-file-mcp/stargazers)
 [![GitHub issues](https://img.shields.io/github/issues/willianpinho/large-file-mcp)](https://github.com/willianpinho/large-file-mcp/issues)
+
+<a href="https://glama.ai/mcp/servers/@willianpinho/large-file-mcp">
+  <img width="380" height="200" src="https://glama.ai/mcp/servers/@willianpinho/large-file-mcp/badge" alt="Large File MCP Server" />
+</a>
 
 > 📚 **[Full Documentation](https://willianpinho.github.io/large-file-mcp/)** | [API Reference](https://willianpinho.github.io/large-file-mcp/api/reference) | [Examples](https://willianpinho.github.io/large-file-mcp/examples/use-cases)
 
