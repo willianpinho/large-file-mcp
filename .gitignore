@@ -2,7 +2,6 @@
 node_modules/
 # package-lock.json - REMOVED: Essential for CI/CD and reproducible builds
 yarn.lock
-pnpm-lock.yaml
 
 # Build output
 dist/
@@ -55,6 +54,11 @@ RESPOSTA_*.md
 CORRECTION_*.md
 COMANDOS_EXECUCAO.sh
 publish.sh
+
+# Publication drafts
+DEVTO_POST*.md
+MEDIUM_*.md
+PUBLISH_TO_MEDIUM.md
 
 # Keep only essential documentation:
 # - README.md
