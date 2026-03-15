@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2026-03-15
+
+### Added
+- Glama.ai integration with `glama.json` configuration for MCP server discovery
+- Docker support with multi-stage `Dockerfile` and `.dockerignore`
+- pnpm lockfile (`pnpm-lock.yaml`) for reproducible builds
+
+### Changed
+- Migrated CI/CD workflow from npm to pnpm for consistency
+- Updated `.gitignore` for publication drafts and pnpm lockfile
+- Dockerfile uses `--ignore-scripts` flag for safer dependency installation
+
 ## [1.0.0] - 2024-11-10
 
 ### Added
