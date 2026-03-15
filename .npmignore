@@ -7,9 +7,24 @@ tsconfig.json
 examples/
 docs/
 
-# Git files
+# Tests
+__tests__/
+coverage/
+jest.config.js
+test-*.js
+
+# Git and CI
 .git/
 .gitignore
+.github/
+
+# Docker
+Dockerfile
+.dockerignore
+
+# Local config
+.mcp.json
+vectors.db*
 
 # Documentation files (keep README, CHANGELOG, CONTRIBUTING, LICENSE)
 *.md
