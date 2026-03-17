@@ -1,0 +1,22 @@
+{
+  "mcpServers": {
+    "docker": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-docker"]
+    },
+    "sentry": {
+      "command": "npx",
+      "args": ["-y", "@sentry/mcp-server@latest"],
+      "env": { "SENTRY_ACCESS_TOKEN": "${SENTRY_ACCESS_TOKEN}" }
+    },
+    "redis": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-redis"],
+      "env": { "REDIS_URL": "${REDIS_URL}" }
+    },
+    "pytest": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-pytest"]
+    }
+  }
+}
