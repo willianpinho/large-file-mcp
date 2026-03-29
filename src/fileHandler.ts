@@ -92,7 +92,7 @@ export class FileHandler {
   static async verifyFile(filePath: string): Promise<void> {
     try {
       await access(filePath, fs.constants.R_OK);
-    } catch (error) {
+    } catch (_error) {
       throw new Error(`File not accessible: ${filePath}`);
     }
 
