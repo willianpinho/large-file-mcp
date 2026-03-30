@@ -31,6 +31,10 @@ A Model Context Protocol (MCP) server for intelligent handling of large files wi
 - **Type Safe** - Written in TypeScript with strict typing
 - **Cross-Platform** - Works on Windows, macOS, and Linux
 
+## Hosted deployment
+
+A hosted deployment is available on [Fronteir AI](https://fronteir.ai/mcp/willianpinho-large-file-mcp).
+
 ## Installation
 
 ```bash
