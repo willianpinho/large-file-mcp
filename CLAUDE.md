@@ -4,23 +4,26 @@
 
 ## Tech Stack
 
-- **Language:** TypeScript, Node.js 18+
-- **Framework:** MCP (Model Context Protocol) SDK
-- **Testing:** Jest (with ts-jest)
+- **Language:** TypeScript 5.9+, Node.js 18+
+- **Framework:** MCP SDK 1.28+
+- **Testing:** Jest 30 (with ts-jest)
 - **Build:** tsc (TypeScript compiler)
+- **Linting:** ESLint 9 (flat config)
+- **Package Manager:** pnpm
 - **Package:** npm (`@willianpinho/large-file-mcp`)
+- **CI/CD:** GitHub Actions with OIDC trusted publisher
 
 ## Commands
 
 ```bash
-npm install
-npm run build               # Compile TypeScript
-npm run dev                 # Watch mode
-npm test                    # Jest tests
-npm run test:coverage       # Coverage report
-npm run lint                # ESLint
+pnpm install
+pnpm run build              # Compile TypeScript
+pnpm run dev                # Watch mode
+pnpm test                   # Jest tests
+pnpm run test:coverage      # Coverage report
+pnpm run lint               # ESLint 9
 
-# Publish
+# Publish (automated via GitHub Actions OIDC)
 npm version patch|minor|major
 npm publish --access public
 ```
