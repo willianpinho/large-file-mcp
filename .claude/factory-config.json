@@ -1,0 +1,51 @@
+{
+  "enabled": true,
+  "repo": "willianpinho/large-file-mcp",
+  "project_path": "/home/willian/Developer/portfolio/large-file-mcp",
+  "intake": {
+    "labels": ["factory-ready"],
+    "max_concurrent": 1
+  },
+  "execution": {
+    "simple_engine": "ralph",
+    "complex_engine": "nexus",
+    "branch_prefix": "factory/"
+  },
+  "quality": {
+    "build_cmd": "pnpm build",
+    "test_cmd": "pnpm test",
+    "lint_cmd": "",
+    "code_review": true
+  },
+  "ci": {
+    "max_retries": 3,
+    "timeout": 600
+  },
+  "deploy": {
+    "target": "none",
+    "method": "docker-compose",
+    "smoke_url": ""
+  },
+  "human_gates": {
+    "after_plan": false,
+    "before_merge": true,
+    "before_deploy_production": true
+  },
+  "notifications": {
+    "ntfy_enabled": true,
+    "ntfy_url": "https://ntfy.willianpinho.com",
+    "ntfy_topics": {
+      "gates": "factory-gates",
+      "escalations": "factory-escalations",
+      "updates": "factory-updates",
+      "completions": "factory-completions"
+    },
+    "github_comments": true
+  },
+  "models": {
+    "scanning": "haiku",
+    "planning": "sonnet",
+    "implementation": "sonnet",
+    "architecture": "opus"
+  }
+}
