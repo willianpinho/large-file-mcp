@@ -1,6 +1,6 @@
 # Large File MCP Server
 
-A Model Context Protocol (MCP) server for intelligent handling of large files with smart chunking, navigation, and streaming capabilities.
+MCP server for intelligent handling of large files — smart chunking, search, navigation, and streaming.
 
 [![npm version](https://img.shields.io/npm/v/@willianpinho/large-file-mcp)](https://www.npmjs.com/package/@willianpinho/large-file-mcp)
 [![npm downloads](https://img.shields.io/npm/dm/@willianpinho/large-file-mcp)](https://www.npmjs.com/package/@willianpinho/large-file-mcp)
@@ -244,14 +244,14 @@ The server intelligently detects and optimizes for:
 
 Customize behavior using environment variables:
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `CHUNK_SIZE` | Default lines per chunk | 500 |
-| `OVERLAP_LINES` | Overlap between chunks | 10 |
-| `MAX_FILE_SIZE` | Maximum file size in bytes | 10GB |
-| `CACHE_SIZE` | Cache size in bytes | 100MB |
-| `CACHE_TTL` | Cache TTL in milliseconds | 5 minutes |
-| `CACHE_ENABLED` | Enable/disable caching | true |
+| Variable        | Description                | Default   |
+| --------------- | -------------------------- | --------- |
+| `CHUNK_SIZE`    | Default lines per chunk    | 500       |
+| `OVERLAP_LINES` | Overlap between chunks     | 10        |
+| `MAX_FILE_SIZE` | Maximum file size in bytes | 10GB      |
+| `CACHE_SIZE`    | Cache size in bytes        | 100MB     |
+| `CACHE_TTL`     | Cache TTL in milliseconds  | 5 minutes |
+| `CACHE_ENABLED` | Enable/disable caching     | true      |
 
 **Example with custom settings (Claude Desktop):**
 
@@ -330,12 +330,12 @@ Uses streaming mode to handle very large files efficiently.
 
 ### File Size Handling
 
-| File Size | Operation Time | Method |
-|-----------|---------------|--------|
-| < 1MB | < 100ms | Direct read |
-| 1-100MB | < 500ms | Streaming |
-| 100MB-1GB | 1-3s | Streaming + cache |
-| > 1GB | Progressive | AsyncGenerator |
+| File Size | Operation Time | Method            |
+| --------- | -------------- | ----------------- |
+| < 1MB     | < 100ms        | Direct read       |
+| 1-100MB   | < 500ms        | Streaming         |
+| 100MB-1GB | 1-3s           | Streaming + cache |
+| > 1GB     | Progressive    | AsyncGenerator    |
 
 ## Development
 
@@ -409,18 +409,9 @@ Check server health:
 claude mcp get large-file-mcp
 ```
 
-## Usage Metrics
+## Configuration
 
-This MCP server is actively maintained and monitored for usage patterns to improve functionality. Usage metrics help us:
-
-- Understand which tools are most valuable
-- Identify performance bottlenecks
-- Prioritize feature development
-- Ensure reliability and stability
-
-### Monitoring in Production
-
-The server provides comprehensive logging and telemetry through environment variables:
+The server is tunable through environment variables:
 
 - **CACHE_ENABLED**: Enable/disable caching (default: `true`)
 - **CACHE_SIZE**: Cache size in bytes (default: `104857600` - 100MB)
@@ -429,9 +420,7 @@ The server provides comprehensive logging and telemetry through environment vari
 - **MAX_FILE_SIZE**: Maximum file size in bytes (default: `10737418240` - 10GB)
 - **OVERLAP_LINES**: Overlap between chunks (default: `10`)
 
-### Usage Examples
-
-Recent usage patterns show the server is particularly effective for:
+### Designed For
 
 - **Log Analysis**: Processing multi-GB log files with search and navigation
 - **Data Processing**: Reading large CSV/JSON files in manageable chunks
@@ -439,7 +428,7 @@ Recent usage patterns show the server is particularly effective for:
 - **System Monitoring**: Analyzing system logs and debug outputs
 - **Document Analysis**: Processing large text documents
 
-For detailed analytics and usage trends, visit the [Glama.ai dashboard](https://glama.ai/mcp/servers/@willianpinho/large-file-mcp).
+Compatible with Claude Code, Cursor, and Gemini CLI. Available on npm and the [Glama.ai registry](https://glama.ai/mcp/servers/@willianpinho/large-file-mcp), and listed in community awesome-MCP directories.
 
 ## Contributing
 
