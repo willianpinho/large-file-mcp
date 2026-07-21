@@ -409,18 +409,7 @@ Check server health:
 claude mcp get large-file-mcp
 ```
 
-## Configuration
-
-The server is tunable through environment variables:
-
-- **CACHE_ENABLED**: Enable/disable caching (default: `true`)
-- **CACHE_SIZE**: Cache size in bytes (default: `104857600` - 100MB)
-- **CACHE_TTL**: Cache TTL in milliseconds (default: `300000` - 5 minutes)
-- **CHUNK_SIZE**: Default lines per chunk (default: `500`)
-- **MAX_FILE_SIZE**: Maximum file size in bytes (default: `10737418240` - 10GB)
-- **OVERLAP_LINES**: Overlap between chunks (default: `10`)
-
-### Designed For
+## Designed For
 
 - **Log Analysis**: Processing multi-GB log files with search and navigation
 - **Data Processing**: Reading large CSV/JSON files in manageable chunks
