@@ -18,6 +18,8 @@ MCP server for intelligent handling of large files — smart chunking, search, n
   <img width="380" height="200" src="https://glama.ai/mcp/servers/@willianpinho/large-file-mcp/badge" alt="Large File MCP Server" />
 </a>
 
+> 🔗 **[Live Demo / Landing Page](https://large-file-mcp.dev.willianpinho.com)** — install with `npx @willianpinho/large-file-mcp`
+>
 > 📚 **[Full Documentation](https://willianpinho.github.io/large-file-mcp/)** | [API Reference](https://willianpinho.github.io/large-file-mcp/api/reference) | [Examples](https://willianpinho.github.io/large-file-mcp/examples/use-cases)
 
 ## Features
