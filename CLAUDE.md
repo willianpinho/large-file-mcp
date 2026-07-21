@@ -30,22 +30,23 @@ npm publish --access public
 
 ## MCP Tools Provided
 
-| Tool | Purpose |
-|------|---------|
+| Tool                    | Purpose                                     |
+| ----------------------- | ------------------------------------------- |
 | `read_large_file_chunk` | Read file chunks with intelligent splitting |
-| `search_in_large_file` | Regex search with context lines |
-| `get_file_structure` | File metadata and line statistics |
-| `navigate_to_line` | Jump to specific line with context |
-| `get_file_summary` | Statistical summary (lines, chars, words) |
-| `stream_large_file` | Stream file in byte-based chunks |
+| `search_in_large_file`  | Regex search with context lines             |
+| `get_file_structure`    | File metadata and line statistics           |
+| `navigate_to_line`      | Jump to specific line with context          |
+| `get_file_summary`      | Statistical summary (lines, chars, words)   |
+| `stream_large_file`     | Stream file in byte-based chunks            |
 
 ## Architecture
 
 ```
 src/
-├── index.ts               # MCP server entry point
-├── tools/                 # Tool implementations
-├── utils/                 # File reading utilities
+├── index.ts               # MCP server entry point (stdio transport)
+├── server.ts              # Tool registration + request handlers
+├── fileHandler.ts         # Chunking, search, navigation, streaming
+├── cacheManager.ts        # LRU + TTL cache
 └── types.ts               # TypeScript types
 
 __tests__/                 # Jest test suites
