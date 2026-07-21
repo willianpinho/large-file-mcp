@@ -4,13 +4,16 @@
   "description": "MCP server for intelligent handling of large files — smart chunking, search, navigation, and streaming.",
   "main": "dist/index.js",
   "type": "module",
+  "files": [
+    "dist"
+  ],
   "bin": {
     "large-file-mcp": "./dist/index.js"
   },
   "scripts": {
     "build": "tsc && chmod +x dist/index.js",
     "dev": "tsc --watch",
-    "prepare": "npm run build",
+    "prepare": "pnpm build",
     "start": "node dist/index.js",
     "lint": "eslint src/",
     "clean": "rm -rf dist",

@@ -1,7 +1,6 @@
 # Source files (compiled output in dist/ is included)
 src/
 tsconfig.json
-.eslintrc.json
 
 # Development files
 examples/
