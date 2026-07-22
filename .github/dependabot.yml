@@ -1,27 +1,13 @@
 version: 2
 updates:
-  - package-ecosystem: "npm"
-    directory: "/"
+  - package-ecosystem: 'npm'
+    directory: '/'
     schedule:
-      interval: "weekly"
-    # The dependencies below are pinned several levels deep by upstream
-    # packages (@modelcontextprotocol/sdk, jest, vitepress/vite) and cannot
-    # be bumped from this repo — Dependabot's automated security-update job
-    # fails with "security_update_not_possible" for each of them because the
-    # latest version resolvable under the upstream pin is still below the
-    # patched version. Ignored here to stop the repeated failing runs in the
-    # Actions tab; remove an entry once the relevant upstream package widens
-    # its pinned range.
-    ignore:
-      - dependency-name: "@hono/node-server" # pinned by @modelcontextprotocol/sdk
-      - dependency-name: "hono" # pinned by @modelcontextprotocol/sdk
-      - dependency-name: "body-parser" # pinned by @modelcontextprotocol/sdk (express)
-      - dependency-name: "qs" # pinned by @modelcontextprotocol/sdk (express)
-      - dependency-name: "fast-uri" # pinned by @modelcontextprotocol/sdk (ajv)
-      - dependency-name: "ip-address" # pinned by @modelcontextprotocol/sdk (express-rate-limit)
-      - dependency-name: "js-yaml" # pinned by jest (dev/test toolchain)
-      - dependency-name: "brace-expansion" # pinned by jest (dev/test toolchain)
-      - dependency-name: "vite" # pinned by vitepress (docs toolchain)
-      - dependency-name: "esbuild" # pinned by vitepress (docs toolchain)
-      - dependency-name: "postcss" # pinned by vitepress (docs toolchain)
-      - dependency-name: "@babel/core" # pinned by jest (dev/test toolchain)
+      interval: 'weekly'
+    # No ignore list: the transitives previously pinned deep by
+    # @modelcontextprotocol/sdk, jest, and vitepress (hono, @hono/node-server,
+    # body-parser, qs, fast-uri, ip-address, js-yaml, brace-expansion, vite,
+    # esbuild, postcss, @babel/core) all resolve to patched versions within
+    # their parents' declared semver ranges as of pnpm-lock.yaml — see
+    # pnpm.overrides in package.json for the one exception (vite) that needed
+    # an explicit override past vitepress's pinned range.
