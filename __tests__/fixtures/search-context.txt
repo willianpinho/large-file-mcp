@@ -1,0 +1,9 @@
+intro
+MATCH one
+between
+MATCH two
+afterA
+afterB
+filler
+MATCH three
+tail only line

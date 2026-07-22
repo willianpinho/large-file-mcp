@@ -15,6 +15,7 @@ const __dirname = path.dirname(__filename);
 const FIXTURES_DIR = path.join(__dirname, 'fixtures');
 const SAMPLE_FILE = path.join(FIXTURES_DIR, 'sample.txt');
 const CODE_FILE = path.join(FIXTURES_DIR, 'code-sample.ts');
+const SEARCH_CONTEXT_FILE = path.join(FIXTURES_DIR, 'search-context.txt');
 
 describe('FileHandler', () => {
   beforeAll(() => {
@@ -102,15 +103,13 @@ describe('FileHandler', () => {
     });
 
     it('should throw error for non-existent file', async () => {
-      await expect(
-        FileHandler.verifyFile('/nonexistent/file.txt')
-      ).rejects.toThrow('File not accessible');
+      await expect(FileHandler.verifyFile('/nonexistent/file.txt')).rejects.toThrow(
+        'File not accessible'
+      );
     });
 
     it('should throw error for directory', async () => {
-      await expect(
-        FileHandler.verifyFile(FIXTURES_DIR)
-      ).rejects.toThrow('Path is not a file');
+      await expect(FileHandler.verifyFile(FIXTURES_DIR)).rejects.toThrow('Path is not a file');
     });
   });
 
@@ -218,7 +217,7 @@ describe('FileHandler', () => {
       expect(chunk.content).toContain('Line 5');
       expect(chunk.content).toMatch(/→ 5:/); // Target line marker
       expect(chunk.startLine).toBe(3); // 5 - 2 context
-      expect(chunk.endLine).toBe(7);   // 5 + 2 context
+      expect(chunk.endLine).toBe(7); // 5 + 2 context
     });
 
     it('should handle navigation near file start', async () => {
@@ -236,13 +235,9 @@ describe('FileHandler', () => {
     });
 
     it('should throw error for invalid line number', async () => {
-      await expect(
-        FileHandler.navigateToLine(SAMPLE_FILE, 0, 2)
-      ).rejects.toThrow('out of range');
+      await expect(FileHandler.navigateToLine(SAMPLE_FILE, 0, 2)).rejects.toThrow('out of range');
 
-      await expect(
-        FileHandler.navigateToLine(SAMPLE_FILE, 100, 2)
-      ).rejects.toThrow('out of range');
+      await expect(FileHandler.navigateToLine(SAMPLE_FILE, 100, 2)).rejects.toThrow('out of range');
     });
   });
 
@@ -281,14 +276,58 @@ describe('FileHandler', () => {
       expect(results.length).toBeLessThanOrEqual(100); // Default maxResults
     });
 
-    it('should include context before and after', async () => {
+    it('should include context before and after with the actual surrounding lines', async () => {
       const results = await FileHandler.search(SAMPLE_FILE, 'ERROR', {
         contextBefore: 1,
         contextAfter: 1,
       });
 
-      expect(results[0].contextBefore.length).toBeLessThanOrEqual(1);
-      expect(results[0].contextAfter.length).toBeLessThanOrEqual(1);
+      expect(results).toHaveLength(2);
+      expect(results[0].contextBefore).toEqual(['Line 2: Second line of text']);
+      expect(results[0].contextAfter).toEqual(['Line 4: Fourth line']);
+      expect(results[1].contextBefore).toEqual(['Line 6: Sixth line']);
+      expect(results[1].contextAfter).toEqual(['Line 8: Eighth line']);
+    });
+
+    it('should fill contextAfter independently for closely-spaced matches, not just the last one', async () => {
+      // MATCH one (line 2) and MATCH two (line 4) are only 2 lines apart,
+      // less than contextAfter: earlier code only ever updated the most
+      // recently pushed result, leaving MATCH one's contextAfter truncated.
+      const results = await FileHandler.search(SEARCH_CONTEXT_FILE, 'MATCH', {
+        contextAfter: 2,
+      });
+
+      expect(results).toHaveLength(3);
+      expect(results[0].lineNumber).toBe(2);
+      expect(results[0].contextAfter).toEqual(['between', 'MATCH two']);
+      expect(results[1].lineNumber).toBe(4);
+      expect(results[1].contextAfter).toEqual(['afterA', 'afterB']);
+    });
+
+    it('should return partial contextAfter when a match is near end of file', async () => {
+      // MATCH three (line 8) is 1 line from EOF, so it can only ever
+      // collect 1 of the 2 requested contextAfter lines.
+      const results = await FileHandler.search(SEARCH_CONTEXT_FILE, 'MATCH', {
+        contextAfter: 2,
+      });
+
+      const lastMatch = results[results.length - 1];
+      expect(lastMatch.lineNumber).toBe(8);
+      expect(lastMatch.contextAfter).toEqual(['tail only line']);
+    });
+
+    it('should still complete contextAfter for the last kept match when maxResults cuts the search short', async () => {
+      // Earlier code closed the readline the instant maxResults was hit,
+      // so the last kept match never got a chance to read its trailing
+      // context lines.
+      const results = await FileHandler.search(SEARCH_CONTEXT_FILE, 'MATCH', {
+        contextAfter: 2,
+        maxResults: 2,
+      });
+
+      expect(results).toHaveLength(2);
+      expect(results[1].lineNumber).toBe(4);
+      expect(results[1].contextAfter).toEqual(['afterA', 'afterB']);
     });
 
     it('should respect maxResults limit', async () => {
