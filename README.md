@@ -319,8 +319,12 @@ Uses streaming mode to handle very large files efficiently.
 
 - **LRU Cache** with configurable size (default 100MB)
 - **TTL-based expiration** (default 5 minutes)
-- **80-90% hit rate** for repeated access
-- Significant performance improvement for frequently accessed files
+- Speeds up repeated access to the same file chunk or structure lookup
+
+Cache hit-rate depends entirely on your access pattern (how often you re-request
+the same chunk), so there's no single universal number — run `pnpm run benchmark`
+to measure it against a documented, repeatable "hot chunk" workload. On that
+workload it currently measures **95%** (95/100 accesses hit the cache).
 
 ### Memory Management
 
@@ -328,14 +332,21 @@ Uses streaming mode to handle very large files efficiently.
 - **Configurable chunk sizes** - adjust based on your use case
 - **Smart buffering** - minimal memory footprint for search operations
 
-### File Size Handling
+### Read Latency (measured)
 
-| File Size | Operation Time | Method            |
-| --------- | -------------- | ----------------- |
-| < 1MB     | < 100ms        | Direct read       |
-| 1-100MB   | < 500ms        | Streaming         |
-| 100MB-1GB | 1-3s           | Streaming + cache |
-| > 1GB     | Progressive    | AsyncGenerator    |
+Uncached `readChunk()` latency from `scripts/benchmark.mjs`, generated fixtures,
+Apple M1 Pro laptop — re-run the script on your own hardware for your own numbers:
+
+| File Size | Observed Latency | Method      |
+| --------- | ---------------- | ----------- |
+| ~500KB    | ~6-8ms           | Direct read |
+| ~5MB      | ~17-24ms         | Streaming   |
+| ~50MB     | ~120-200ms       | Streaming   |
+
+Larger tiers (100MB-1GB, >1GB) aren't benchmarked here — the streaming
+architecture (line-by-line `readline`, never loading the full file) means time
+scales roughly linearly with size, and `streamFile()` switches to an
+`AsyncGenerator` so memory stays flat regardless of file size.
 
 ## Development
 
