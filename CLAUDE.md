@@ -45,7 +45,13 @@ npm publish --access public
 src/
 ├── index.ts               # MCP server entry point (stdio transport)
 ├── server.ts              # Tool registration + request handlers
-├── fileHandler.ts         # Chunking, search, navigation, streaming
+├── fileHandler.ts         # Thin barrel — FileHandler delegates to src/file-handler/*
+├── file-handler/
+│   ├── metadata.ts        # File type detection, metadata, existence/readability checks
+│   ├── reader.ts          # Chunked reading, line-range reading, line navigation
+│   ├── search.ts          # Regex/plain-text pattern search with context lines
+│   ├── analysis.ts        # File structure and content statistics
+│   └── stream.ts          # Byte-based streaming of large files
 ├── cacheManager.ts        # LRU + TTL cache
 └── types.ts               # TypeScript types
 

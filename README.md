@@ -373,11 +373,12 @@ pnpm start  # Run server
 
 ```text
 src/
-├── index.ts        # Entry point
-├── server.ts       # MCP server implementation
-├── fileHandler.ts  # Core file handling logic
-├── cacheManager.ts # Caching implementation
-└── types.ts        # TypeScript type definitions
+├── index.ts          # Entry point
+├── server.ts         # MCP server implementation
+├── fileHandler.ts    # Thin barrel — delegates to src/file-handler/*
+├── file-handler/      # Chunking, search, navigation, streaming (split by concern)
+├── cacheManager.ts   # Caching implementation
+└── types.ts          # TypeScript type definitions
 ```
 
 ## Troubleshooting
