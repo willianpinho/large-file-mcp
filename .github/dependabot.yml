@@ -4,10 +4,20 @@ updates:
     directory: '/'
     schedule:
       interval: 'weekly'
-    # No ignore list: the transitives previously pinned deep by
-    # @modelcontextprotocol/sdk, jest, and vitepress (hono, @hono/node-server,
-    # body-parser, qs, fast-uri, ip-address, js-yaml, brace-expansion, vite,
-    # esbuild, postcss, @babel/core) all resolve to patched versions within
-    # their parents' declared semver ranges as of pnpm-lock.yaml — see
-    # pnpm.overrides in package.json for the one exception (vite) that needed
-    # an explicit override past vitepress's pinned range.
+    # The transitives previously pinned deep by @modelcontextprotocol/sdk,
+    # jest, and vitepress (hono, body-parser, qs, fast-uri, ip-address,
+    # js-yaml, brace-expansion, vite, esbuild, postcss, @babel/core) all
+    # resolve to patched versions within their parents' declared semver
+    # ranges as of pnpm-lock.yaml — see pnpm.overrides in package.json for
+    # the one exception (vite) that needed an explicit override past
+    # vitepress's pinned range.
+    ignore:
+      # GHSA-frvp-7c67-39w9 (Windows-only path traversal in serve-static)
+      # is patched only from @hono/node-server 2.0.5, which requires
+      # Node >=20 — conflicts with this repo's `engines.node >=18.0.0` and
+      # the CI matrix's 18.x leg. @modelcontextprotocol/sdk also pins
+      # @hono/node-server to ^1.19.9, so a 2.x override fights the SDK's
+      # own declared range. No fix available without dropping Node 18
+      # support; revisit once the SDK moves to @hono/node-server 2.x or
+      # this repo drops Node 18.
+      - dependency-name: '@hono/node-server'
