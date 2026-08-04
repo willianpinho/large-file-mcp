@@ -1,9 +1,23 @@
+# Dependency policy: SECURITY UPDATES ONLY.
+#
+# This package IS published to npm, so it has real downstream users — but it is
+# not under active feature development, and routine version-bump PRs are queue
+# noise. `open-pull-requests-limit: 0` disables Dependabot VERSION updates.
+#
+# Dependabot SECURITY updates are NOT affected: security PRs are exempt from
+# this limit and do not count toward it, so advisories affecting published
+# consumers still open PRs. Repo-level Dependabot alerts + automated security
+# fixes stay enabled. The `ignore:` block below also governs security updates
+# and is preserved verbatim.
+#
+# To resume version updates: raise the limit back above zero.
 version: 2
 updates:
   - package-ecosystem: 'npm'
     directory: '/'
     schedule:
       interval: 'weekly'
+    open-pull-requests-limit: 0
     # The transitives previously pinned deep by @modelcontextprotocol/sdk,
     # jest, and vitepress (hono, body-parser, qs, fast-uri, ip-address,
     # js-yaml, brace-expansion, vite, esbuild, postcss, @babel/core) all
